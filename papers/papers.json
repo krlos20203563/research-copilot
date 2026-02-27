@@ -1,0 +1,224 @@
+{
+  "papers": [
+    {
+      "id": "paper_001",
+      "title": "Crime and plural orders in Rio de Janeiro, Brazil",
+      "authors": ["Arias, Enrique", "Barnes, Nicholas"],
+      "year": 2017,
+      "venue": null,
+      "doi": "10.1177/0011392116667165",
+      "filename": "Arias y Barnes - 2017 - Crime and plural orders in Rio de Jan....pdf",
+      "topics": ["crimen organizado", "órdenes plurales", "Brasil", "Rio de Janeiro"],
+      "abstract": null
+    },
+    {
+      "id": "paper_002",
+      "title": "Resisting the extortion racket: an empirical analysis",
+      "authors": ["Battisti, Michele", "Lavezzi, Andrea Mario", "Masserini, Lucio", "Pratesi, Monica"],
+      "year": 2018,
+      "venue": "European Journal of Law and Economics",
+      "doi": "10.1007/s10657-018-9589-4",
+      "filename": "Battisti et al. - 2018 - Resisting the extortion racket an empirical analysis.pdf",
+      "topics": ["extorsión", "crimen organizado", "Mafia", "resistencia", "Addiopizzo"],
+      "abstract": "While the contributions on the organized crime and Mafia environments are many, there is a lack of empirical evidence on the firm's decision to resist to extortion. Our case study is based on Addiopizzo, an NGO that, from 2004, invites firms to refuse requests from the local Mafia and to join a public list of 'non-payers'. The research is based on a dataset obtained linking the current administrative archives maintained by the chambers of commerce and the list updated by the NGO."
+    },
+    {
+      "id": "paper_003",
+      "title": "Against the Odds: Small Business Strategies for Managing Extortion in San Salvador",
+      "authors": ["Bull, Benedicte", "Bergmann, Adrian", "Gude, Rafael"],
+      "year": 2024,
+      "venue": "Journal of Illicit Economies and Development (JIED)",
+      "doi": "10.31389/jied.203",
+      "filename": "Bull et al. - 2024 - Against the Odds Small Business Strategies for Managing Extortion in San Salvado.pdf",
+      "topics": ["extorsión", "pequeñas empresas", "El Salvador", "estrategias de resistencia"],
+      "abstract": "Since the mid-2000s, extortion has impacted social and economic development in El Salvador significantly. Against the grain of the extant literature, which predominantly takes for granted that extorted businesses are passive victims, we leverage business surveys and 103 interviews, primarily with 54 micro and small enterprises (MSEs) in the San Salvador metropolitan area, El Salvador, to explore (a) the impact of extortion and (b) how businesses operate in the face of extortion."
+    },
+    {
+      "id": "paper_004",
+      "title": "Community capacity and the reporting of extortion victimization",
+      "authors": ["Dulin, Adam"],
+      "year": 2023,
+      "venue": "International Journal of Comparative and Applied Criminal Justice",
+      "doi": "10.1080/01924036.2023.2271985",
+      "filename": "Dulin - 2023 - Community capacity and the reporting of ext....pdf",
+      "topics": ["extorsión", "denuncia del delito", "eficacia colectiva", "México", "victimización"],
+      "abstract": "The present research examines the impact of actualised collective efficacy on the probability of reporting extortion victimisation in Mexico. The analysis extends the concept of collective efficacy, adapting it to contexts where actual informal social control effects can be examined."
+    },
+    {
+      "id": "paper_005",
+      "title": "Are Repeatedly Extorted Businesses Different? A Multilevel Hurdle Model of Extortion Victimization",
+      "authors": ["Estévez-Soto, Patricio R.", "Johnson, Shane D.", "Tilley, Nick"],
+      "year": 2021,
+      "venue": "Journal of Quantitative Criminology",
+      "doi": "10.1007/s10940-020-09480-8",
+      "filename": "Estévez-Soto et al. - 2021 - Are Repeatedly Extorted Businesses Different....pdf",
+      "topics": ["extorsión", "victimización repetida", "empresas", "crimen organizado", "modelo hurdle"],
+      "abstract": "Research consistently shows that crime concentrates on a few repeatedly victimized places and targets. In this paper we examine whether the same is true for extortion against businesses. We then test whether the factors that explain the likelihood of becoming a victim of extortion also explain the number of incidents suffered by victimized businesses."
+    },
+    {
+      "id": "paper_006",
+      "title": "Gobernanza Criminal y la Crisis de los Estados Latinoamericanos Contemporáneos",
+      "authors": ["Feldmann, Andreas E.", "Luna, Juan Pablo"],
+      "year": 2022,
+      "venue": "Annual Review of Sociology",
+      "doi": "10.1146/annurev-soc-101221-021836",
+      "filename": "Feldmann y Luna - 2022 - Gobernanza Criminal y la Crisis de....pdf",
+      "topics": ["gobernanza criminal", "América Latina", "estado", "crimen organizado", "violencia"],
+      "abstract": "Crecientemente las sociedades latinoamericanas enfrentan el surgimiento de nuevos órdenes en que los funcionarios estatales y las autoridades políticas comparten el poder con organizaciones criminales."
+    },
+    {
+      "id": "paper_007",
+      "title": "¿Extorsión, un laberinto sin salida?: Modalidades más empleadas en Alto Trujillo",
+      "authors": ["Felipe, María Fernanda Leiva", "Polo, Evelin Yuliana Medrano"],
+      "year": 2024,
+      "venue": "DERECHO UCT",
+      "doi": "10.46363/derecho.v2i2.3",
+      "filename": "Felipe y Polo - 2024 - ¿Extorsión, un laberinto sin salida Mod....pdf",
+      "topics": ["extorsión", "cobro de cupos", "Trujillo", "Perú", "inseguridad ciudadana"],
+      "abstract": "La presente investigación tuvo como objetivo determinar en qué medida el delito de extorsión incide en la inseguridad ciudadana en los habitantes del Distrito de Alto Trujillo-2022."
+    },
+    {
+      "id": "paper_008",
+      "title": "Legalized Extortion: A State-led Governance Regime to Control Informal Street Vending at Lima's Gamarra Market, Peru",
+      "authors": ["Ginocchio, Francesco"],
+      "year": 2022,
+      "venue": "Journal of Illicit Economies and Development (JIED)",
+      "doi": "10.31389/jied.132",
+      "filename": "Ginocchio - 2022 - Legalized Extortion A State-led Governa....pdf",
+      "topics": ["extorsión legalizada", "gobernanza", "comercio informal", "Gamarra", "Lima", "Perú"],
+      "abstract": "Based on Charles Tilly's definition of state-making, this article develops the concept of legalized extortion to understand the expansion of the state's fiscal capacity towards informal street vending."
+    },
+    {
+      "id": "paper_009",
+      "title": "Fear of crime examined through diversity of crime, social inequalities, and social capital: An empirical evaluation in Peru",
+      "authors": ["Hernández, Wilson", "Dammert, Lucía", "Kanashiro, Lilian"],
+      "year": 2020,
+      "venue": "Australian & New Zealand Journal of Criminology",
+      "doi": "10.1177/0004865820954466",
+      "filename": "Hernández et al. - 2020 - Fear of crime examined through di....pdf",
+      "topics": ["miedo al crimen", "Perú", "desigualdad social", "capital social", "victimización"],
+      "abstract": "Using multilevel methods for a large and subnational representative household survey (N = 271,022), we assess the determinants of fear of crime in Peru, the country with the highest fear of crime and crime victimization in the region."
+    },
+    {
+      "id": "paper_010",
+      "title": "¿A costa de qué?: El Estado de Emergencia en el Callao y su impacto de corto y largo plazo sobre la seguridad ciudadana, la violencia familiar y el bienestar social",
+      "authors": ["Hernández, Wilson", "Román, Andrea", "Cozzubo, Angelo"],
+      "year": 2024,
+      "venue": "CIES",
+      "doi": null,
+      "filename": "Hernández et al. - 2024 - ¿A costa de qué El Estado de Emer....pdf",
+      "topics": ["estado de emergencia", "Callao", "Perú", "seguridad ciudadana", "violencia familiar"],
+      "abstract": "En Perú, la declaración de Estado de Emergencia (EE) se ha vuelto una medida de política pública común y ampliamente solicitada para abordar el problema de la delincuencia."
+    },
+    {
+      "id": "paper_011",
+      "title": "Conceptualizing Criminal Governance",
+      "authors": ["Lessing, Benjamin"],
+      "year": 2021,
+      "venue": "Perspectives on Politics",
+      "doi": "10.1017/S1537592720001243",
+      "filename": "Lessing - 2021 - Conceptualizing Criminal Governance.pdf",
+      "topics": ["gobernanza criminal", "crimen organizado", "estado", "autoridad criminal"],
+      "abstract": "In informal urban areas throughout the developing world, and even in some US and UK neighborhoods, tens if not hundreds of millions of people live under some form of criminal governance. I develop a conceptual framework centered around the who, what, and how of criminal governance."
+    },
+    {
+      "id": "paper_012",
+      "title": "Resisting Protection: Rackets, Resistance, and State Building",
+      "authors": ["Moncada, Eduardo"],
+      "year": 2019,
+      "venue": "Comparative Politics",
+      "doi": "10.5129/001041519X15647434969948",
+      "filename": "Moncada - 2019 - Resisting Protection Rackets, Resistance, a....pdf",
+      "topics": ["extorsión", "rackets de protección", "resistencia", "construcción del estado", "América Latina"],
+      "abstract": "This article brings into dialogue literature on the state and emerging research on criminal politics through a study of protection rackets. I develop a political economy framework to explain variation in forms of resistance to rackets."
+    },
+    {
+      "id": "paper_013",
+      "title": "Problemas y consideraciones básicas sobre la medición del delito en el Perú",
+      "authors": ["Mujica, Jaris"],
+      "year": 2013,
+      "venue": "El Perú subterráneo (DESCO)",
+      "doi": null,
+      "filename": "Mujica - Problemas y consideraciones básicas sobre la medi....pdf",
+      "topics": ["medición del delito", "estadísticas criminales", "victimización", "Perú"],
+      "abstract": "This article shows some of the basic problems of measuring crime in Peru: the focus on the quantification of complaints, the gap between reported crimes and crimes actually carried out, and some problems of comparing rates of reported crimes."
+    },
+    {
+      "id": "paper_014",
+      "title": "Inseguridad y mecanismos barriales de protección en el Perú urbano",
+      "authors": ["Rojas, Diana Bonilla", "Castillo, Sofía Vizcarra"],
+      "year": 2016,
+      "venue": "URVIO. Revista Latinoamericana de Estudios de Seguridad",
+      "doi": "10.17141/urvio.19.2016.2401",
+      "filename": "Rojas y Castillo - 2016 - Inseguridad y mecanismos barriales....pdf",
+      "topics": ["inseguridad", "protección barrial", "Perú urbano", "seguridad ciudadana"],
+      "abstract": null
+    },
+    {
+      "id": "paper_015",
+      "title": "Model (my) neighbourhood – a bottom-up collective approach for crime-prevention in Portugal and Lithuania",
+      "authors": ["Saraiva, Miguel", "Matijosaitiene, Irina", "Diniz, Monica", "Velicka, Vilius"],
+      "year": 2016,
+      "venue": "Journal of Place Management and Development",
+      "doi": "10.1108/JPMD-09-2015-0033",
+      "filename": "Saraiva et al. - 2016 - Model (my) neighbourhood – a botto....pdf",
+      "topics": ["prevención del crimen", "diseño urbano", "enfoque bottom-up", "Portugal", "Lituania"],
+      "abstract": "This paper responds to the need for comparative studies on methodologies for implementing Crime Prevention through Urban Design and Planning (CP-UDP) at the local level, particularly in peripheral Europe where CP-UDP's top-down standards have poor dissemination and acceptance."
+    },
+    {
+      "id": "paper_016",
+      "title": "Drugs, Violence, and State-Sponsored Protection Rackets in Mexico and Colombia",
+      "authors": ["Snyder, Richard", "Durán Martínez, Angélica"],
+      "year": 2009,
+      "venue": "Colombia Internacional",
+      "doi": null,
+      "filename": "Snyder y Durán Martínez - 2009 - Drugs, Violence, and State-Sponsored Protection Ra....pdf",
+      "topics": ["narcotráfico", "violencia", "rackets de protección", "México", "Colombia", "estado"],
+      "abstract": "Illegality does not necessarily breed violence. The relationship between illicit markets and violence depends on institutions of protection. When state-sponsored protection rackets form, illicit markets can be peaceful."
+    },
+    {
+      "id": "paper_017",
+      "title": "Why Did Drug Cartels Go to War in Mexico? Subnational Party Alternation, the Breakdown of Criminal Protection, and the Onset of Large-Scale Violence",
+      "authors": ["Trejo, Guillermo", "Ley, Sandra"],
+      "year": 2018,
+      "venue": "Comparative Political Studies",
+      "doi": "10.1177/0010414017720703",
+      "filename": "Trejo y Ley - 2018 - Why Did Drug Cartels Go to War in Mexi....pdf",
+      "topics": ["cárteles de droga", "violencia", "México", "alternancia política", "protección criminal"],
+      "abstract": null
+    },
+    {
+      "id": "paper_018",
+      "title": "Factores asociados a la comisión del delito de extorsión en el Distrito Fiscal de La Libertad 2017-2018",
+      "authors": ["Yupari-Azabache, Irma", "Zapata, Luigi Villena", "León, Helen Rabanal", "Melendrez, Magdiel Zurita"],
+      "year": 2020,
+      "venue": "Revista Criminalidad",
+      "doi": null,
+      "filename": "Yupari-Azabache et al. - 2020 - Factores asociados a la comi....pdf",
+      "topics": ["extorsión", "factores asociados", "La Libertad", "Perú", "criminalidad"],
+      "abstract": null
+    },
+    {
+      "id": "paper_019",
+      "title": "Inseguridad, estado y desigualdad en el Perú y América Latina: un estado de la cuestión",
+      "authors": ["Zárate, Patricia", "Aragón, Jorge", "Morel, Jorge"],
+      "year": 2013,
+      "venue": "Instituto de Estudios Peruanos",
+      "doi": null,
+      "filename": "Zárate et al. - 2013 - Inseguridad, estado y desigualdad en e....pdf",
+      "topics": ["inseguridad", "estado", "desigualdad", "Perú", "América Latina", "seguridad ciudadana"],
+      "abstract": "Este documento aborda el concepto de seguridad ciudadana y las diferentes aplicaciones de las estrategias de seguridad en occidente, el cambio de contexto social y político que dio paso a la aparición de un nuevo escenario de inseguridad en América Latina desde mediados de los noventa."
+    },
+    {
+      "id": "paper_020",
+      "title": "Defensa comunitaria y culturas del terror: Crimen organizado y violencia de Estado en comunidades originarias de Guerrero, México",
+      "authors": ["Delgado, Inés Giménez"],
+      "year": 2022,
+      "venue": "The Journal of Latin American and Caribbean Anthropology",
+      "doi": "10.1111/jlca.12641",
+      "filename": "Delgado - 2022 - Defensa comunitaria y culturas del terror....pdf",
+      "topics": ["defensa comunitaria", "crimen organizado", "violencia de estado", "México", "Guerrero", "resistencia"],
+      "abstract": "Drawing on investigative ethnographic fieldwork, testimonial work and a hemerographic review in Guerrero, this article investigates how the entanglement between state, para-state, criminal and community actors leads to some short of 'state of exception,' as well as to the emergence of forms of territorial organization."
+    }
+  ]
+}

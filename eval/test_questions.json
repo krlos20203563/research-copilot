@@ -1,0 +1,176 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "topic": "Crimen organizado, extorsión y gobernanza criminal en América Latina",
+    "total_questions": 20,
+    "categories": [
+      "gobernanza_criminal",
+      "extorsion",
+      "resistencia",
+      "estado_y_crimen",
+      "metodologia"
+    ]
+  },
+  "questions": [
+    {
+      "id": "q001",
+      "category": "gobernanza_criminal",
+      "question": "¿Qué es la gobernanza criminal y cuáles son sus componentes principales según la literatura?",
+      "difficulty": "basic",
+      "expected_papers": ["paper_011", "paper_006", "paper_001"],
+      "key_concepts": ["gobernanza criminal", "autoridad", "territorio", "orden"]
+    },
+    {
+      "id": "q002",
+      "category": "gobernanza_criminal",
+      "question": "¿Cómo coexisten las organizaciones criminales con el Estado en contextos de órdenes plurales?",
+      "difficulty": "intermediate",
+      "expected_papers": ["paper_001", "paper_006", "paper_011"],
+      "key_concepts": ["órdenes plurales", "coexistencia", "negociación", "territorio"]
+    },
+    {
+      "id": "q003",
+      "category": "extorsion",
+      "question": "¿Cuáles son los factores que hacen que algunas empresas sean más vulnerables a la extorsión que otras?",
+      "difficulty": "intermediate",
+      "expected_papers": ["paper_005", "paper_002", "paper_003"],
+      "key_concepts": ["victimización", "vulnerabilidad", "tamaño empresa", "sector"]
+    },
+    {
+      "id": "q004",
+      "category": "extorsion",
+      "question": "¿Qué estrategias adoptan las pequeñas empresas en El Salvador para manejar la extorsión?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_003"],
+      "key_concepts": ["El Salvador", "micro empresas", "adaptación", "resistencia pasiva"]
+    },
+    {
+      "id": "q005",
+      "category": "resistencia",
+      "question": "¿Bajo qué condiciones la resistencia colectiva a la extorsión es más efectiva?",
+      "difficulty": "intermediate",
+      "expected_papers": ["paper_002", "paper_012", "paper_003"],
+      "key_concepts": ["acción colectiva", "eficacia", "coordinación", "Addiopizzo"]
+    },
+    {
+      "id": "q006",
+      "category": "resistencia",
+      "question": "¿Cómo afecta la capacidad comunitaria a la probabilidad de denunciar la extorsión en México?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_004"],
+      "key_concepts": ["eficacia colectiva", "denuncia", "México", "capital social"]
+    },
+    {
+      "id": "q007",
+      "category": "estado_y_crimen",
+      "question": "¿Qué es un 'racket de protección' patrocinado por el Estado y qué ejemplos existen en América Latina?",
+      "difficulty": "intermediate",
+      "expected_papers": ["paper_016", "paper_012", "paper_008"],
+      "key_concepts": ["racket de protección", "Estado", "Colombia", "México"]
+    },
+    {
+      "id": "q008",
+      "category": "estado_y_crimen",
+      "question": "¿Por qué los cárteles de droga en México escalaron la violencia tras la alternancia política subnacional?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_017"],
+      "key_concepts": ["cárteles", "alternancia", "violencia", "protección criminal"]
+    },
+    {
+      "id": "q009",
+      "category": "estado_y_crimen",
+      "question": "¿Qué es la 'extorsión legalizada' y cómo opera en el mercado de Gamarra en Lima?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_008"],
+      "key_concepts": ["extorsión legalizada", "Gamarra", "Lima", "comercio informal"]
+    },
+    {
+      "id": "q010",
+      "category": "estado_y_crimen",
+      "question": "¿Cuál fue el impacto del Estado de Emergencia en el Callao sobre la seguridad ciudadana?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_010"],
+      "key_concepts": ["Callao", "estado de emergencia", "seguridad", "Perú"]
+    },
+    {
+      "id": "q011",
+      "category": "gobernanza_criminal",
+      "question": "¿Cómo ha evolucionado la crisis del Estado latinoamericano en relación con el crimen organizado?",
+      "difficulty": "advanced",
+      "expected_papers": ["paper_006", "paper_011", "paper_016"],
+      "key_concepts": ["crisis estatal", "América Latina", "crimen organizado", "capacidad institucional"]
+    },
+    {
+      "id": "q012",
+      "category": "extorsion",
+      "question": "¿Qué distingue a las empresas repetidamente extorsionadas de aquellas victimizadas una sola vez?",
+      "difficulty": "intermediate",
+      "expected_papers": ["paper_005"],
+      "key_concepts": ["victimización repetida", "modelo hurdle", "factores de riesgo"]
+    },
+    {
+      "id": "q013",
+      "category": "resistencia",
+      "question": "¿Cómo responden las comunidades indígenas en Guerrero, México, al crimen organizado?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_020"],
+      "key_concepts": ["defensa comunitaria", "Guerrero", "comunidades indígenas", "autodefensas"]
+    },
+    {
+      "id": "q014",
+      "category": "metodologia",
+      "question": "¿Cuáles son los principales problemas metodológicos al medir la criminalidad en el Perú?",
+      "difficulty": "basic",
+      "expected_papers": ["paper_013"],
+      "key_concepts": ["medición del delito", "cifra negra", "encuestas de victimización", "denuncias"]
+    },
+    {
+      "id": "q015",
+      "category": "metodologia",
+      "question": "¿Qué factores explican el miedo al crimen en el Perú y cómo se relaciona con la desigualdad?",
+      "difficulty": "intermediate",
+      "expected_papers": ["paper_009"],
+      "key_concepts": ["miedo al crimen", "desigualdad", "capital social", "análisis multinivel"]
+    },
+    {
+      "id": "q016",
+      "category": "extorsion",
+      "question": "¿Cuáles son las modalidades de extorsión más frecuentes en Alto Trujillo, Perú?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_007"],
+      "key_concepts": ["cobro de cupos", "Trujillo", "modalidades", "inseguridad"]
+    },
+    {
+      "id": "q017",
+      "category": "estado_y_crimen",
+      "question": "¿Cuál es la relación entre inseguridad, desigualdad y capacidad estatal en América Latina?",
+      "difficulty": "advanced",
+      "expected_papers": ["paper_019", "paper_009", "paper_006"],
+      "key_concepts": ["inseguridad", "desigualdad", "estado", "América Latina"]
+    },
+    {
+      "id": "q018",
+      "category": "resistencia",
+      "question": "¿Qué mecanismos barriales de protección existen en el Perú urbano y qué tan efectivos son?",
+      "difficulty": "specific",
+      "expected_papers": ["paper_014"],
+      "key_concepts": ["serenazgo", "juntas vecinales", "vigilancia comunitaria", "Perú"]
+    },
+    {
+      "id": "q019",
+      "category": "gobernanza_criminal",
+      "question": "¿Cómo compara la gobernanza criminal en Brasil versus México según la literatura disponible?",
+      "difficulty": "advanced",
+      "expected_papers": ["paper_001", "paper_017", "paper_020"],
+      "key_concepts": ["comparación", "Brasil", "México", "facciones criminales"]
+    },
+    {
+      "id": "q020",
+      "category": "metodologia",
+      "question": "¿Cómo pueden integrarse enfoques cuantitativos y cualitativos para estudiar la extorsión en la región?",
+      "difficulty": "advanced",
+      "expected_papers": ["paper_005", "paper_003", "paper_013"],
+      "key_concepts": ["métodos mixtos", "encuestas", "etnografía", "triangulación"]
+    }
+  ]
+}
