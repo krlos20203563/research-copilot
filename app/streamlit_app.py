@@ -138,7 +138,6 @@ def _build_index(api_key: str, status_placeholder):
     """Build both ChromaDB collections. Streams progress to status_placeholder."""
     from src.ingestion import load_papers
     from src.chunking import chunk_papers
-    from src.embedding import embed_texts
     from src.vectorstore import (
         CHROMA_PERSIST_DIR, COLLECTION_SMALL, COLLECTION_LARGE,
         get_chroma_client, get_or_create_collection, index_chunks,
@@ -161,7 +160,7 @@ def _build_index(api_key: str, status_placeholder):
             f"🔢 Generando embeddings para {len(chunks)} chunks ({label})…  \n"
             "Esto toma ~2-3 minutos la primera vez."
         )
-        index_chunks(chunks, col, show_progress=False)
+        index_chunks(chunks, col, show_progress=False, openai_client=oa)
 
     status_placeholder.success("✅ Índice construido. ¡Listo para usar!")
 

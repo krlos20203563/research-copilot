@@ -81,9 +81,11 @@ def index_chunks(
     collection: chromadb.Collection,
     batch_size: int = 50,
     show_progress: bool = True,
+    openai_client=None,
 ) -> None:
     """Embed and upsert *chunks* into a ChromaDB collection."""
-    openai_client = get_client()
+    if openai_client is None:
+        openai_client = get_client()
     total = len(chunks)
 
     for start in range(0, total, batch_size):
