@@ -4,6 +4,8 @@ Sistema conversacional RAG (_Retrieval-Augmented Generation_) para consultar 20 
 
 Desarrollado como parte de la **Tarea 1** del curso de Prompt Engineering — QLab.
 
+link del Research Copilot: 
+https://research-copilot-organized-crime.streamlit.app/
 ---
 
 ## Características
