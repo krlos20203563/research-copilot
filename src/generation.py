@@ -76,7 +76,8 @@ def generate_answer(
         completion_tokens: int
     """
     if client is None:
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        from src.embedding import get_client
+        client = get_client()
 
     context = _format_context(chunks)
     builder = STRATEGY_BUILDERS[strategy]
@@ -117,7 +118,8 @@ def compare_strategies(
 ) -> dict[str, dict]:
     """Run all four strategies and return results keyed by strategy name."""
     if client is None:
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        from src.embedding import get_client
+        client = get_client()
 
     results = {}
     for strategy in STRATEGY_BUILDERS:

@@ -151,13 +151,10 @@ def run_evaluation(
 ) -> dict:
     """Run full evaluation matrix: questions × strategies."""
     from openai import OpenAI
+    from src.config import require_openai_api_key
     from src.vectorstore import get_chroma_client
 
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise EnvironmentError("OPENAI_API_KEY not set.")
-
-    oa_client = OpenAI(api_key=api_key)
+    oa_client = OpenAI(api_key=require_openai_api_key())
     chroma_client = get_chroma_client()
 
     all_results = []
