@@ -1,7 +1,8 @@
 # Core RAG dependencies
 openai>=1.12.0
 chromadb>=0.4.22
-pymupdf>=1.23.0          # PyMuPDF for PDF extraction (import fitz)
+pymupdf>=1.23.0          # PyMuPDF — solo para scripts/convert_pdfs_to_md.py
+pymupdf4llm>=1.24.0      # Conversión PDF → Markdown (scripts/convert_pdfs_to_md.py)
 tiktoken>=0.6.0          # Token counting / chunking
 
 # Web interface

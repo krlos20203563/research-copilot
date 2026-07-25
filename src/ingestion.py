@@ -1,8 +1,9 @@
 """
 ingestion.py
 ------------
-Extracts text from PDFs using PyMuPDF and combines it with metadata
-from papers.json. Running this module directly indexes all papers.
+Reads the Markdown versions of the papers (papers_md/, generated once from
+the PDFs via scripts/convert_pdfs_to_md.py) and combines them with metadata
+from papers.json. Running this module directly loads and summarizes all papers.
 """
 from __future__ import annotations
 
@@ -11,13 +12,13 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-import fitz  # PyMuPDF
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
 logger = logging.getLogger(__name__)
 
 # Default paths (relative to project root)
-PAPERS_DIR = Path(__file__).resolve().parent.parent / "papers"
+ROOT = Path(__file__).resolve().parent.parent
+PAPERS_DIR = ROOT / "papers"
+PAPERS_MD_DIR = ROOT / "papers_md"
 PAPERS_JSON = PAPERS_DIR / "papers.json"
 
 
@@ -28,16 +29,18 @@ def load_metadata(json_path: Path = PAPERS_JSON) -> dict[str, dict]:
     return {p["filename"]: p for p in data["papers"]}
 
 
-def extract_text(pdf_path: Path) -> str:
-    """Extract all text from a PDF file using PyMuPDF."""
-    doc = fitz.open(str(pdf_path))
-    pages = []
-    for page in doc:
-        text = page.get_text("text")
-        if text.strip():
-            pages.append(text)
-    doc.close()
-    return "\n".join(pages)
+def read_markdown(md_path: Path) -> str:
+    """Read the full text of a Markdown paper."""
+    return md_path.read_text(encoding="utf-8")
+
+
+def _strip_ext(fname: str) -> str:
+    """Remove a trailing .pdf or .md extension (case-insensitive)."""
+    lower = fname.lower()
+    for ext in (".pdf", ".md"):
+        if lower.endswith(ext):
+            return fname[: -len(ext)]
+    return fname
 
 
 def _find_metadata(fname: str, metadata: dict[str, dict]) -> Optional[dict]:
@@ -47,17 +50,17 @@ def _find_metadata(fname: str, metadata: dict[str, dict]) -> Optional[dict]:
     Handles two common mismatches:
       1. JSON filenames are truncated (e.g. 'Author - 2020 - Title....pdf')
          while actual files have the full name.
-      2. Actual files may lack the .pdf extension.
+      2. Actual files are .md while JSON keys still end in .pdf.
     """
     # 1. Exact match
     if fname in metadata:
         return metadata[fname]
 
-    # 2. Try without extension (file has no .pdf)
-    fname_noext = fname if not fname.endswith(".pdf") else fname[:-4]
+    # 2. Compare without extensions (.md files vs .pdf keys)
+    fname_noext = _strip_ext(fname)
 
     for key, meta in metadata.items():
-        key_noext = key[:-4] if key.endswith(".pdf") else key
+        key_noext = _strip_ext(key)
         # Remove trailing ellipsis from JSON key if present
         key_noext = key_noext.rstrip(".")
 
@@ -69,53 +72,37 @@ def _find_metadata(fname: str, metadata: dict[str, dict]) -> Optional[dict]:
     return None
 
 
-def _find_paper_files(papers_dir: Path) -> list[Path]:
-    """
-    Return all PDF files in papers_dir.
-    Uses PyMuPDF to detect valid PDFs, handling:
-      - Files without .pdf extension (e.g. pathlib misparses 'Author et al. - ...')
-      - Files with non-standard headers (BOM, CR/LF before %PDF-)
-    """
-    SKIP_NAMES = {"papers.json"}
-    SKIP_EXTS = {".json", ".txt", ".md", ".py", ".ipynb"}
-    files = []
-    for path in sorted(papers_dir.iterdir()):
-        if not path.is_file() or path.name in SKIP_NAMES:
-            continue
-        if any(path.name.lower().endswith(ext) for ext in SKIP_EXTS):
-            continue
-        # Try opening with PyMuPDF — most reliable PDF detection
-        try:
-            doc = fitz.open(str(path))
-            if doc.page_count > 0:
-                files.append(path)
-            doc.close()
-        except Exception:
-            pass
-    return files
+def _find_markdown_files(papers_md_dir: Path = PAPERS_MD_DIR) -> list[Path]:
+    """Return all Markdown papers in papers_md_dir, sorted by name."""
+    if not papers_md_dir.is_dir():
+        raise FileNotFoundError(
+            f"{papers_md_dir} no existe. Genera los Markdown con: "
+            "python scripts/convert_pdfs_to_md.py"
+        )
+    return sorted(papers_md_dir.glob("*.md"))
 
 
 def load_papers(
-    papers_dir: Path = PAPERS_DIR,
+    papers_dir: Path = PAPERS_MD_DIR,
     json_path: Path = PAPERS_JSON,
     verbose: bool = True,
 ) -> list[dict]:
     """
-    Load all papers, extracting text and merging metadata.
+    Load all papers, reading their Markdown text and merging metadata.
 
     Returns a list of dicts, each with:
         id, title, authors, year, venue, doi, topics, abstract,
-        filename, text, num_chars, num_pages
+        filename, text, num_chars
     """
     metadata = load_metadata(json_path)
     results = []
 
-    paper_files = _find_paper_files(papers_dir)
+    paper_files = _find_markdown_files(papers_dir)
     if verbose:
         logger.info(f"Found {len(paper_files)} paper files in {papers_dir}")
 
-    for pdf_path in paper_files:
-        fname = pdf_path.name
+    for md_path in paper_files:
+        fname = md_path.name
         meta = _find_metadata(fname, metadata)
 
         if meta is None:
@@ -123,28 +110,23 @@ def load_papers(
             continue
 
         try:
-            text = extract_text(pdf_path)
+            text = read_markdown(md_path)
         except Exception as exc:
-            logger.error(f"Failed to extract text from {fname}: {exc}")
+            logger.error(f"Failed to read {fname}: {exc}")
             continue
-
-        doc = fitz.open(str(pdf_path))
-        num_pages = doc.page_count
-        doc.close()
 
         record = {
             **meta,
+            "filename": fname,
             "text": text,
             "num_chars": len(text),
-            "num_pages": num_pages,
-            "filepath": str(pdf_path),
+            "filepath": str(md_path),
         }
         results.append(record)
 
         if verbose:
             logger.info(
-                f"  [{meta['id']}] {meta['title'][:60]} — "
-                f"{num_pages} pages, {len(text):,} chars"
+                f"  [{meta['id']}] {meta['title'][:60]} — {len(text):,} chars"
             )
 
     if verbose:

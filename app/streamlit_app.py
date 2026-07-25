@@ -5,7 +5,9 @@ Research Copilot — RAG interface for 20 academic papers on criminal governance
 and extortion in Latin America.
 
 Flow:
-  1. API Key gate  — user enters OpenAI key (stored in session state only)
+  1. Key check     — la OPENAI_API_KEY se resuelve del lado del servidor
+                     (st.secrets en Streamlit Cloud, .env en local); si falta,
+                     se muestra una pantalla de configuración para el admin
   2. Index gate    — auto-detects ChromaDB; builds it if missing (first run)
   3. Main app      — Chat / Papers / Compare / About
 
@@ -34,8 +36,6 @@ st.set_page_config(
 
 # ── Session state defaults ─────────────────────────────────────────────────
 for _k, _v in {
-    "api_key": "",
-    "api_key_validated": False,
     "index_ready": False,
     "messages": [],
 }.items():
@@ -44,76 +44,25 @@ for _k, _v in {
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# STEP 1 — API KEY GATE
+# STEP 1 — SERVER-SIDE KEY CHECK
 # ══════════════════════════════════════════════════════════════════════════
 
-def _validate_api_key(key: str) -> tuple[bool, str]:
-    key = key.strip()
-    if not key:
-        return False, "La clave no puede estar vacía."
-    if not key.startswith("sk-"):
-        return False, "Una API key de OpenAI debe comenzar con 'sk-'."
-    try:
-        from openai import OpenAI, AuthenticationError
-        OpenAI(api_key=key).models.list()
-        return True, ""
-    except AuthenticationError:
-        return False, "API key inválida. Verifica que sea correcta."
-    except Exception as exc:
-        return False, f"Error al verificar: {exc}"
-
-
-def _try_load_env_key():
-    """Load key from local .env if present (dev convenience, never committed)."""
-    if st.session_state.api_key_validated:
-        return
-    try:
-        from dotenv import dotenv_values
-        key = dotenv_values(ROOT / ".env").get("OPENAI_API_KEY", "").strip()
-        if key and not key.startswith("sk-..."):
-            st.session_state.api_key = key
-            st.session_state.api_key_validated = True
-    except Exception:
-        pass
-
-
-def render_api_key_gate() -> bool:
-    """Returns True if a valid key is in session state."""
-    if st.session_state.api_key_validated:
-        return True
-
+def render_missing_key_screen():
+    """Shown only when the server has no OPENAI_API_KEY configured.
+    Addressed to the app admin — visitors are never asked for a key."""
     _, col, _ = st.columns([1, 2, 1])
     with col:
         st.markdown("## 📚 Research Copilot")
+        st.error("⚠️ La aplicación no está configurada: falta la `OPENAI_API_KEY`.")
         st.markdown(
-            "Asistente de investigación para **20 artículos académicos** sobre "
-            "crimen organizado, extorsión y gobernanza criminal en América Latina."
+            "**Si eres el administrador de la app:**\n\n"
+            "- **Streamlit Cloud:** ve a *Settings → Secrets* y añade:\n"
+            "  ```toml\n"
+            '  OPENAI_API_KEY = "sk-..."\n'
+            "  ```\n"
+            "- **Local:** copia `.env.example` a `.env` y añade tu clave.\n\n"
+            "Los visitantes no necesitan (ni deben ingresar) ninguna clave."
         )
-        st.divider()
-        st.markdown("### 🔑 Ingresa tu OpenAI API Key")
-        st.caption(
-            "La clave se guarda solo en memoria (sesión). Nunca se escribe en disco "
-            "ni en el código. "
-            "Obtén la tuya en [platform.openai.com/api-keys](https://platform.openai.com/api-keys)."
-        )
-        with st.form("api_key_form"):
-            key_input = st.text_input(
-                "API Key", type="password", placeholder="sk-...",
-                label_visibility="collapsed",
-            )
-            if st.form_submit_button("Iniciar Research Copilot →", type="primary",
-                                     use_container_width=True):
-                with st.spinner("Verificando…"):
-                    ok, msg = _validate_api_key(key_input)
-                if ok:
-                    st.session_state.api_key = key_input.strip()
-                    st.session_state.api_key_validated = True
-                    st.rerun()
-                else:
-                    st.error(f"❌ {msg}")
-        st.divider()
-        st.caption("💡 **Desarrollo local:** crea `.env` con `OPENAI_API_KEY=sk-...`")
-    return False
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -134,7 +83,7 @@ def _index_exists() -> bool:
         return False
 
 
-def _build_index(api_key: str, status_placeholder):
+def _build_index(status_placeholder):
     """Build both ChromaDB collections. Streams progress to status_placeholder."""
     from src.ingestion import load_papers
     from src.chunking import chunk_papers
@@ -142,12 +91,11 @@ def _build_index(api_key: str, status_placeholder):
         CHROMA_PERSIST_DIR, COLLECTION_SMALL, COLLECTION_LARGE,
         get_chroma_client, get_or_create_collection, index_chunks,
     )
-    from openai import OpenAI
 
-    oa = OpenAI(api_key=api_key)
+    oa = get_openai_client()
     chroma = get_chroma_client(CHROMA_PERSIST_DIR)
 
-    status_placeholder.info("📂 Leyendo los 20 PDFs…")
+    status_placeholder.info("📂 Leyendo los 20 papers (Markdown)…")
     papers = load_papers(verbose=False)
 
     for strategy, col_name in [("small", COLLECTION_SMALL), ("large", COLLECTION_LARGE)]:
@@ -168,7 +116,9 @@ def _build_index(api_key: str, status_placeholder):
 def render_index_gate() -> bool:
     """
     Returns True if the index is ready.
-    On first run (no index), shows a build button.
+    On first run (no index), builds it automatically — on Streamlit Cloud the
+    filesystem is ephemeral, so this runs on every cold start without asking
+    the visitor to do anything.
     """
     if st.session_state.index_ready:
         return True
@@ -177,28 +127,25 @@ def render_index_gate() -> bool:
         st.session_state.index_ready = True
         return True
 
-    # Index missing — show setup screen
+    # Index missing — build it now
     _, col, _ = st.columns([1, 2, 1])
     with col:
         st.markdown("## ⚙️ Primera configuración")
         st.markdown(
-            "El índice vectorial no existe todavía. "
-            "Hay que procesar los **20 PDFs** y generar sus embeddings.  \n"
-            "Esto ocurre **una sola vez** (~2-3 min) y luego se guarda."
-        )
-        st.info(
-            "📌 Se usará tu API key para llamar a `text-embedding-3-small`.  \n"
-            "Costo aproximado: **< $0.05 USD** por indexación completa."
+            "El índice vectorial no existe todavía. Se está procesando el corpus "
+            "de **20 papers** y generando sus embeddings.  \n"
+            "Esto ocurre solo en el primer arranque (~2-3 min)."
         )
         status = st.empty()
-        if st.button("🚀 Construir índice ahora", type="primary", use_container_width=True):
-            with st.spinner("Construyendo índice… no cierres esta pestaña."):
-                try:
-                    _build_index(st.session_state.api_key, status)
-                    st.session_state.index_ready = True
+        with st.spinner("Construyendo índice… no cierres esta pestaña."):
+            try:
+                _build_index(status)
+                st.session_state.index_ready = True
+                st.rerun()
+            except Exception as exc:
+                st.error(f"Error al construir el índice: {exc}")
+                if st.button("🔁 Reintentar", type="primary"):
                     st.rerun()
-                except Exception as exc:
-                    st.error(f"Error al construir el índice: {exc}")
     return False
 
 
@@ -221,9 +168,11 @@ def load_papers_metadata():
         return json.load(f).get("papers", [])
 
 
+@st.cache_resource(show_spinner=False)
 def get_openai_client():
     from openai import OpenAI
-    return OpenAI(api_key=st.session_state.api_key)
+    from src.config import require_openai_api_key
+    return OpenAI(api_key=require_openai_api_key())
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -253,14 +202,6 @@ def render_sidebar():
             key="chunk_strategy",
         )
         top_k = st.slider("Top-k fragmentos", 1, 10, 5, key="top_k")
-
-        st.divider()
-        masked = "sk-…" + st.session_state.api_key[-4:] if len(st.session_state.api_key) > 6 else "—"
-        st.caption(f"🔑 API Key activa: `{masked}`")
-        if st.button("🔒 Cerrar sesión", use_container_width=True):
-            for k in ["api_key", "api_key_validated", "index_ready", "messages"]:
-                st.session_state[k] = "" if k == "api_key" else (False if k != "messages" else [])
-            st.rerun()
 
         st.divider()
         st.caption("Research Copilot v0.1.0")
@@ -429,12 +370,15 @@ def render_about_tab():
 ## Arquitectura RAG
 
 ```
-20 PDFs → PyMuPDF → Chunking (256 / 1024 tok) → text-embedding-3-small
-                                                         ↓
-                                                  ChromaDB (cosine)
-                                                         ↓
+20 papers (papers_md/*.md) → Chunking (256 / 1024 tok) → text-embedding-3-small
+                                                                  ↓
+                                                           ChromaDB (cosine)
+                                                                  ↓
 Query → embed → Top-K Retrieval → Prompt Strategy → GPT-4o → Respuesta
 ```
+
+Los `.md` se generaron una sola vez desde los PDFs originales con
+`scripts/convert_pdfs_to_md.py` (pymupdf4llm).
 
 ## Las 4 Estrategias de Prompting
 
@@ -446,8 +390,9 @@ Query → embed → Top-K Retrieval → Prompt Strategy → GPT-4o → Respuesta
 | 4 | **Chain-of-Thought** | 5 pasos explícitos de razonamiento |
 
 ## Seguridad
-La API key se solicita en el navegador y se guarda **solo en memoria de sesión**.
-Nunca se escribe en disco ni en el código fuente.
+La API key de OpenAI se configura **del lado del servidor** (Streamlit Cloud
+Secrets o `.env` local). Nunca se solicita en el navegador, nunca se incluye
+en el código fuente y nunca se sube al repositorio.
 
 ## Papers indexados
 """)
@@ -461,9 +406,10 @@ Nunca se escribe en disco ni en el código fuente.
 git clone https://github.com/krlos20203563/research-copilot
 cd research-copilot
 pip install -r requirements.txt
+cp .env.example .env   # y añade tu OPENAI_API_KEY (solo el administrador)
 streamlit run app/streamlit_app.py
 ```
-La app pedirá la API key y construirá el índice automáticamente en la primera ejecución.
+La app construirá el índice automáticamente en la primera ejecución.
 """)
 
 
@@ -472,18 +418,17 @@ La app pedirá la API key y construirá el índice automáticamente en la primer
 # ══════════════════════════════════════════════════════════════════════════
 
 def main():
-    # Step 1 — try .env for local dev
-    _try_load_env_key()
-
-    # Step 2 — API key gate
-    if not render_api_key_gate():
+    # Step 1 — server-side key check (st.secrets / .env; visitors never asked)
+    from src.config import get_openai_api_key
+    if not get_openai_api_key():
+        render_missing_key_screen()
         st.stop()
 
-    # Step 3 — Index gate (auto-builds on first run)
+    # Step 2 — Index gate (auto-builds on first run)
     if not render_index_gate():
         st.stop()
 
-    # Step 4 — Main app
+    # Step 3 — Main app
     strategy, chunk_strategy, top_k = render_sidebar()
     tab_chat, tab_papers, tab_compare, tab_about = st.tabs([
         "💬 Chat", "📄 Papers", "🔬 Comparar", "ℹ️ Acerca de",

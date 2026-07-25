@@ -10,7 +10,7 @@ https://research-copilot-organized-crime.streamlit.app/
 
 ## Características
 
-- **Extracción de texto** de 20 PDFs académicos con PyMuPDF
+- **Corpus en Markdown**: los 20 PDFs se convirtieron una sola vez a `.md` (pymupdf4llm) y la ingesta lee directamente el Markdown
 - **Chunking inteligente** en 256 o 1024 tokens con overlap configurable
 - **Embeddings** con `text-embedding-3-small` de OpenAI
 - **Vector store** persistente con ChromaDB (búsqueda cosine)
@@ -28,10 +28,14 @@ Tarea_1/
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
-├── papers/                    ← 20 PDFs + papers.json
+├── papers/                    ← 20 PDFs originales (referencia) + papers.json
+├── papers_md/                 ← 20 papers en Markdown (fuente de la ingesta)
+├── scripts/
+│   └── convert_pdfs_to_md.py  ← conversión única PDF → Markdown
 ├── src/
 │   ├── __init__.py
-│   ├── ingestion.py           ← extracción de texto (PyMuPDF)
+│   ├── config.py              ← resolución server-side de la API key
+│   ├── ingestion.py           ← lectura de Markdown + metadata
 │   ├── chunking.py            ← chunking por tokens (256 / 1024)
 │   ├── embedding.py           ← embeddings text-embedding-3-small
 │   ├── vectorstore.py         ← ChromaDB setup y persistencia
@@ -82,17 +86,27 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configurar API Key
+### 4. Configurar API Key (solo el administrador)
 
-```bash
-cp .env.example .env
-```
+La clave se configura **del lado del servidor** — los usuarios de la app nunca la ingresan:
 
-Edita `.env` y añade tu clave:
+- **Local:**
 
-```
-OPENAI_API_KEY=sk-...tu-clave-aqui...
-```
+  ```bash
+  cp .env.example .env
+  ```
+
+  Edita `.env` y añade tu clave:
+
+  ```
+  OPENAI_API_KEY=sk-...tu-clave-aqui...
+  ```
+
+- **Streamlit Cloud:** ve a *Settings → Secrets* de la app y añade:
+
+  ```toml
+  OPENAI_API_KEY = "sk-..."
+  ```
 
 ### 5. Indexar los papers (primera vez)
 
@@ -100,7 +114,13 @@ OPENAI_API_KEY=sk-...tu-clave-aqui...
 python -m src.vectorstore
 ```
 
-Esto extrae texto de los 20 PDFs, genera embeddings y los almacena en ChromaDB (`./chroma_db/`). Toma aproximadamente 3–5 minutos.
+Esto lee los 20 papers en Markdown (`papers_md/`), genera embeddings y los almacena en ChromaDB (`./chroma_db/`). Toma aproximadamente 3–5 minutos. (Si vienes de una versión anterior indexada desde PDFs, usa `--force-rebuild`.)
+
+Los `.md` ya están versionados en el repo; si necesitas regenerarlos desde los PDFs originales:
+
+```bash
+python scripts/convert_pdfs_to_md.py --force
+```
 
 ### 6. Lanzar la aplicación web
 
@@ -126,10 +146,11 @@ Abre [http://localhost:8501](http://localhost:8501) en tu navegador.
 ## Pipeline RAG
 
 ```
-                    ┌─────────────┐
-         PDF ──────►│ PyMuPDF     │──► texto raw
-     papers.json    └─────────────┘
-                           │
+                     ┌──────────────┐
+  papers_md/*.md ───►│  Lectura MD  │──► texto Markdown
+     papers.json     └──────────────┘
+   (generados 1 vez        │
+    desde los PDFs)        │
                     ┌─────────────┐
                     │  Chunking   │──► chunks (256 / 1024 tokens)
                     │  + overlap  │
@@ -253,7 +274,7 @@ jupyter notebook notebooks/
 
 | Componente | Tecnología |
 |-----------|-----------|
-| Extracción PDF | PyMuPDF (`fitz`) |
+| Conversión PDF → MD | pymupdf4llm (una sola vez, `scripts/`) |
 | Tokenización | tiktoken (`cl100k_base`) |
 | Embeddings | OpenAI `text-embedding-3-small` (1536 dim) |
 | Vector store | ChromaDB (cosine similarity, HNSW) |
@@ -263,9 +284,17 @@ jupyter notebook notebooks/
 
 ---
 
+## Seguridad de la API key
+
+- La clave vive **solo** en el servidor: `.env` en local o *Secrets* en Streamlit Cloud. Ambos están fuera del repositorio (`.env` y `.streamlit/secrets.toml` en `.gitignore`).
+- Los visitantes de la app **nunca** ingresan ni ven ninguna clave.
+- Como la app pública consume la clave del administrador (embeddings + GPT-4o en cada pregunta), se recomienda fijar un **límite de gasto** en el dashboard de OpenAI.
+
+---
+
 ## Notas
 
-- La primera indexación requiere llamadas a la API de OpenAI (~20 papers × ~200 chunks = ~4,000 embeddings).
-- El índice se persiste en `./chroma_db/` y no necesita regenerarse en ejecuciones posteriores.
+- La primera indexación requiere llamadas a la API de OpenAI (~20 papers × ~200 chunks = ~2,500 embeddings).
+- El índice se persiste en `./chroma_db/` y no necesita regenerarse en ejecuciones posteriores. En Streamlit Cloud el filesystem es efímero, así que la app lo reconstruye automáticamente en cada arranque en frío.
 - Para re-indexar desde cero: `python -m src.vectorstore --force-rebuild`
 - El modelo GPT-4o puede reemplazarse con `gpt-4o-mini` en `.env` para reducir costos en evaluaciones extensas.

@@ -1,6 +1,8 @@
 # Environment & secrets
 .env
 *.key
+.streamlit/secrets.toml
+secrets.toml
 
 # ChromaDB persistence
 chroma_db/
@@ -31,9 +33,10 @@ ENV/
 Thumbs.db
 desktop.ini
 
-# IDE
+# IDE / local tooling
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 
